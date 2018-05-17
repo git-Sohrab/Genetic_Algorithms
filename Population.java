@@ -1,42 +1,40 @@
 class Population {
-    Individual[] population;             // Array to hold the current population
+    Individual[] individuals;
     int SIZE;
-    private String target;                // Target phrase
-    int generations;              // Number of generations
-    private boolean finished;             // Are we finished evolving?
+    private String target;
+    int generations;
+    private boolean finished;
     private int perfectScore;
 
-    Population(String p, int populationSize) {
-        target = p;
-        population = new Individual[populationSize];
-        SIZE = populationSize;
-        for (int i = 0; i < population.length; i++)
-            population[i] = new Individual(target.length());
+    Population(String t, int individualsSize) {
+        target = t;
+        individuals = new Individual[SIZE = individualsSize];
+        for (int i = 0; i < individuals.length; i++)
+            individuals[i] = new Individual(target.length());
         calcFitness();
         finished = false;
         generations = 0;
         perfectScore = 1;
     }
 
-    // Fill our fitness array with a value for every member of the population
-    void calcFitness() { for (Individual i : population) i.fitness(target); }
+    void calcFitness() { for (Individual i : individuals) i.fitness(target); }
 
-    // Compute the current "most fit" member of the population
     String getBest() {
         double currentMax = 0;
         int iMax = 0;
-        for (int i = 0; i < population.length; i++) {
-            if (population[i].fitness > currentMax) {
+        for (int i = 0; i < individuals.length; i++) {
+            if (individuals[i].fitness > currentMax) {
                 iMax = i;
-                currentMax = population[i].fitness;
+                currentMax = individuals[i].fitness;
             }
         }
-
         if (currentMax == perfectScore ) finished = true;
-        return population[iMax].getPhrase();
+        return individuals[iMax].getPhrase();
     }
 
     boolean finished() { return finished; }
 
-    void setPopulation(Individual[] newPopulation) { population = newPopulation; }
+    void setPopulation(Individual[] newPopulation) { individuals = newPopulation; }
+
+    public Individual[] getIndividuals() { return individuals.clone(); }
 }
